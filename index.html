@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>周杰伦歌迷站</title>
+    <style>
+    body {
+        font-family: 'Microsoft YaHei', sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 20px;
+    }
+    
+    nav {
+        background: #333;
+        padding: 1rem;
+        position: sticky;
+        top: 0;
+    }
+    
+    nav a {
+        color: white;
+        padding: 0 1.5rem;
+        text-decoration: none;
+    }
+    
+    section {
+        margin: 2rem 0;
+        padding: 2rem;
+        background: #f4f4f4;
+        border-radius: 8px;
+    }
+    
+    .gallery {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+    
+</style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav>
+        <a href="#intro"><span>简介</span></a>
+        <a href="#albums"><span>专辑</span></a>
+        <a href="#concerts"><span>演唱会</span></a>
+        <a href="#movies"><span>影视作品</span></a>
+    </nav>
+
+    <!-- 简介区块 -->
+    <section id="intro">
+        <h1>周杰伦</h1>
+        <h5>中国台湾男歌手、演员、导演</h5>
+        <img src="jay picture.jpg" alt="周杰伦肖像" width="200">
+        <p>周杰伦（Jay Chou），1979年1月18日出生于台湾省新北市，毕业于淡江中学，华语流行乐男歌手、音乐人、<em>演员</em>、
+            <em>导演</em>、<em>编剧</em>、<em>词曲创作人</em>，亚洲流行乐坛<strong>最具革命性</strong>的创作歌手。</p>
+    </section>
+
+    <!-- 专辑列表 -->
+    <section id="albums">
+        <h2>音乐专辑</h2>
+        <ol>
+            <li>
+                <details>
+                    <summary>《Jay》（2000）</summary>
+                    <p>周杰伦首张专辑，开启华语流行音乐新纪元</p>
+                </details>
+            </li>
+            <li>《范特西》（2001）</li>
+            <li>《八度空间》（2002）</li>
+            <li>《叶惠美》（2003）</li>
+            <li>《七里香》（2004）</li>
+            <li>《11月的肖邦》（2005）</li>
+            <li>《依然范特西》（2006）</li>
+            <li>《不能说的秘密》（2007）</li>
+            <li>《我很忙》（2007）</li>
+            <li>《魔杰座》（2008）</li>
+            <li>《跨时代》（2010）</li>
+            <li>《十二新作》（2012）</li>
+            <li>《哎呦，不错哦》（2014）...</li>
+        </ol>
+    </section>
+        
+
+    <!-- 演唱会图片 -->
+    <section id="concerts">
+        <h2>演唱会场照</h2>
+        <div class="gallery">
+            <img src="ych1.jpg" width="560">
+            <img src="ych2.jpg" width="560">
+        </div>
+    </section>
+
+    <!-- 影视作品模块 -->
+    <section id="movies">
+        <h3>影视作品</h3>
+        <ul>
+            <li>《不能说的秘密》（2007）导演/主演</li>
+            <li>《头文字D》（2005）主演</li>
+        </ul>
+        <img width="560" height="315" src="secret.png" alt="不能说的秘密">
+        <img width="560" height="315" src="secret2.png" alt="不能说的秘密">
+        <img width="560" height="315" src="d1.png" alt="头文字D">
+        <img width="560" height="315" src="d2.png" alt="头文字D">
+    </section>
+
+    <!-- 联系表单 -->
+    <form>
+        <h3>加入粉丝俱乐部</h3>
+        <label>省份：
+            <select>
+                <option>安徽</option>
+                <option>北京</option>
+                <option>重庆</option>
+                <option>福建</option>
+                <option>甘肃</option>
+                <option>广东</option>
+                <option>广西</option>
+                <option>贵州</option>
+                <option>海南</option>
+                <option>河北</option>
+                <option>黑龙江</option>
+                <option>河南</option>
+                <option>湖北</option>
+                <option>湖南</option>
+                <option>内蒙古</option>
+                <option>江苏</option>
+                <option>江西</option>
+                <option>吉林</option>
+                <option>辽宁</option>
+                <option>宁夏</option>
+                <option>青海</option>
+                <option>陕西</option>
+                <option>山东</option>
+                <option>上海</option>
+                <option>山西</option>
+                <option>四川</option>
+                <option>天津</option>
+                <option>西藏</option>
+                <option>新疆</option>
+                <option>云南</option>
+                <option>浙江</option>
+                <option>香港</option>
+                <option>澳门</option>
+                <option>台湾</option>
+            </select>
+        </label>
+        <label>姓名：<input type="text"></label>
+        <label>邮箱：<input type="email"></label>
+        <button type="submit">提交</button>
+    </form>
+
+</body>
+</html>
