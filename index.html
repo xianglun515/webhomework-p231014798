@@ -92,11 +92,33 @@
         transition: all 0.3s ease;
         border-radius: 8px;
         box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        filter: brightness(0.95);
     }
     
     .gallery img:hover {
         transform: scale(1.03);
         box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        filter: brightness(1.05);
+        z-index: 10;
+    }
+    
+    /* 新增影视作品图片悬停效果 */
+    #movies img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        transition: all 0.3s ease;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        filter: brightness(0.95);
+        margin-bottom: 1rem;
+    }
+    
+    #movies img:hover {
+        transform: scale(1.03);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        filter: brightness(1.05);
+        z-index: 10;
     }
     
     @media (max-width: 600px) {
@@ -277,10 +299,12 @@
             <li>《不能说的秘密》（2007）导演/主演</li>
             <li>《头文字D》（2005）主演</li>
         </ul>
-        <img width="560" height="315" src="secret.png" alt="不能说的秘密">
-        <img width="560" height="315" src="secret2.png" alt="不能说的秘密">
-        <img width="560" height="315" src="d1.png" alt="头文字D">
-        <img width="560" height="315" src="d2.png" alt="头文字D">
+        <div class="movie-images">
+            <img width="560" height="315" src="secret.png" alt="不能说的秘密">
+            <img width="560" height="315" src="secret2.png" alt="不能说的秘密">
+            <img width="560" height="315" src="d1.png" alt="头文字D">
+            <img width="560" height="315" src="d2.png" alt="头文字D">
+        </div>
     </section>
 
     <!-- 联系表单 -->
@@ -298,7 +322,7 @@
                         <option>广东省</option>
                         <option>广西壮族自治区</option>
                         <option>贵州省</option>
-                        <option>海南省</option>
+                        <option>海南</option>
                         <option>河北省</option>
                         <option>黑龙江省</option>
                         <option>河南省</option>
@@ -356,7 +380,7 @@
             <div class="news-card">
                 <h3><a href="#" style="color: inherit; text-decoration: none; transition: all 0.3s ease;" onmouseover="this.style.color='#ffcc00'; this.style.textDecoration='underline'" onmouseout="this.style.color='inherit'; this.style.textDecoration='none'">周杰伦2023演唱会巡演启动</a></h3>
                 <p class="news-meta">2023-10-15 | 阅读量: 12,345</p>
-                <p>周杰伦宣布将于2023年12月开始新一轮世界巡回演唱会，首站定于上海...</p>
+                <p>周杰伦宣布将于2023年12月开始一轮世界巡回演唱会，首站定于上海...</p>
             </div>
             <div class="news-card">
                 <h3><a href="#" style="color: inherit; text-decoration: none; transition: all 0.3s ease;" onmouseover="this.style.color='#ffcc00'; this.style.textDecoration='underline'" onmouseout="this.style.color='inherit'; this.style.textDecoration='none'">新专辑《最伟大的作品》销量突破百万</a></h3>
