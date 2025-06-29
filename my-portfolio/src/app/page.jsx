@@ -5,33 +5,66 @@ export default function HomePage() {
     <div style={{ fontFamily: 'sans-serif', padding: '2rem' }}>
       <header style={{ textAlign: 'center', marginBottom: '3rem' }}>
         <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold' }}>我的课程练习作品集</h1>
-        <p style={{ color: '#666' }}>欢迎查看我的 Web 开发学习成果</p>
+        <p className="text-lg text-gray-600">欢迎查看我的 Web前端开发学习成果</p>
+        <a href="/time.html" className="absolute top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-600 transition-colors duration-200">
+          GitHub同步记录
+        </a>
       </header>
 
-      <main>
-        <ul style={{ listStyle: 'none', padding: 0, display: 'grid', gap: '1.5rem', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))' }}>
-          <li style={{ background: '#f9f9f9', padding: '1.5rem', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
-            <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem' }}>周杰伦作品集</h2>
-            <p style={{ color: '#555', marginBottom: '1.5rem' }}>一个展示周杰伦音乐和影视作品的粉丝页面。</p>
-            <Link href="/jay" style={{ textDecoration: 'none', color: '#0070f3', fontWeight: 'bold' }}>
-              查看项目
-            </Link>
+      <main style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', gap: '3rem' }}>
+        <div style={{ flex: '1', maxWidth: '600px' }}>
+          <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem', textAlign: 'center' }}>平时作业</h2>
+          <ul style={{ listStyle: 'none', padding: 0, display: 'grid', gap: '1.5rem', gridTemplateColumns: 'repeat(2, 1fr)' }}>
+            <li style={{ background: '#f9f9f9', padding: '1.5rem', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', transition: 'transform 0.2s ease-in-out', ':hover': { transform: 'translateY(-5px)' } }}>
+              <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem' }}>平时作业1</h2>
+              <p style={{ color: '#555', marginBottom: '1.5rem' }}>“我被点击了！”</p>
+              <Link href="/lasthomework" style={{ textDecoration: 'none', color: '#0070f3', fontWeight: 'bold' }}>
+                查看项目
+              </Link>
+            </li>
+            <li style={{ background: '#f9f9f9', padding: '1.5rem', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', transition: 'transform 0.2s ease-in-out', ':hover': { transform: 'translateY(-5px)' } }}>
+              <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem' }}>平时作业2</h2>
+              <p style={{ color: '#555', marginBottom: '1.5rem' }}>待添加作业描述。</p>
+              <Link href="/homework2" style={{ textDecoration: 'none', color: '#0070f3', fontWeight: 'bold' }}>
+                查看项目
+              </Link>
+            </li>
+            <li style={{ background: '#f9f9f9', padding: '1.5rem', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', transition: 'transform 0.2s ease-in-out', ':hover': { transform: 'translateY(-5px)' } }}>
+              <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem' }}>平时作业3</h2>
+              <p style={{ color: '#555', marginBottom: '1.5rem' }}>待添加作业描述。</p>
+              <Link href="/homework3" style={{ textDecoration: 'none', color: '#0070f3', fontWeight: 'bold' }}>
+                查看项目
+              </Link>
+            </li>
+            <li style={{ background: '#f9f9f9', padding: '1.5rem', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', transition: 'transform 0.2s ease-in-out', ':hover': { transform: 'translateY(-5px)' } }}>
+              <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem' }}>平时作业4</h2>
+              <p style={{ color: '#555', marginBottom: '1.5rem' }}>待添加作业描述。</p>
+              <Link href="/homework4" style={{ textDecoration: 'none', color: '#0070f3', fontWeight: 'bold' }}>
+                查看项目
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        <div style={{ width: '1px', background: '#ccc', height: 'auto', alignSelf: 'stretch' }}></div>
+
+        <div style={{ flex: '1', maxWidth: '300px', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          <h2 style={{ fontSize: '1.5rem', marginBottom: '0.5rem', textAlign: 'center' }}>其他项目</h2>
+          <li style={{ background: '#f9f9f9', padding: '1.5rem', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', listStyle: 'none', transition: 'transform 0.2s ease-in-out', ':hover': { transform: 'translateY(-5px)' } }}>
+            <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem' }}>JayChou Fan's</h2>
+            <p style={{ color: '#555', marginBottom: '1.5rem' }}>周杰伦中文粉丝网。</p>
+            <a href="https://xianglun515.github.io/webhomework-p231014798/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: '#0070f3', fontWeight: 'bold' }}>
+              点击跳转
+            </a>
           </li>
-          <li style={{ background: '#f9f9f9', padding: '1.5rem', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
-            <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem' }}>最后的作业</h2>
-            <p style={{ color: '#555', marginBottom: '1.5rem' }}>课程的最终项目，整合了多项技能。</p>
-            <Link href="/lasthomework" style={{ textDecoration: 'none', color: '#0070f3', fontWeight: 'bold' }}>
-              查看项目
-            </Link>
-          </li>
-          <li style={{ background: '#f9f9f9', padding: '1.5rem', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
+          <li style={{ background: '#f9f9f9', padding: '1.5rem', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', listStyle: 'none', transition: 'transform 0.2s ease-in-out', ':hover': { transform: 'translateY(-5px)' } }} >
             <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem' }}>QAnything 问答服务</h2>
-            <p style={{ color: '#555', marginBottom: '1.5rem' }}>一个基于大语言模型的智能问答服务页面。</p>
+            <p style={{ color: '#555', marginBottom: '1.5rem' }}>一个基于网易大语言模型的智能问答服务页面。</p>
             <Link href="/qanything" style={{ textDecoration: 'none', color: '#0070f3', fontWeight: 'bold' }}>
               访问服务
             </Link>
           </li>
-        </ul>
+        </div>
       </main>
     </div>
   );

@@ -13,7 +13,7 @@ export async function GET(request) {
 
   try {
     const encodedApiKey = btoa(apiKey);
-    const url = 'https://wakatime.com/api/v1/users/current/stats/last_7_days';
+    const url = 'https://wakatime.com/api/v1/users/current/all_time_since_today';
 
     console.log('Attempting to fetch WakaTime stats...');
 

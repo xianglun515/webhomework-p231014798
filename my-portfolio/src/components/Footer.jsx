@@ -19,7 +19,7 @@ const WakaTimeStats = () => {
       })
       .then(data => {
         if (data && data.data && data.data.human_readable_total) {
-          setTotalTime(data.data.human_readable_total);
+          setTotalTime(data.data.text);
         } else {
           setTotalTime('Could not parse WakaTime stats.');
         }
@@ -32,7 +32,7 @@ const WakaTimeStats = () => {
 
   return (
     <footer style={{ textAlign: 'center', marginTop: '2rem', padding: '1rem', borderTop: '1px solid #eaeaea' }}>
-      <p>Total Coding Time (Last 7 Days): {totalTime}</p>
+      <p>Total Coding Time: {totalTime}</p>
     </footer>
   );
 };
