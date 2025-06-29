@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>议程设置理论数据可视化</title>
+    <!-- 引入Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- 配置Tailwind自定义颜色 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#36CFC9',
+                        accent: '#FF7D00',
+                        neutral: '#6B7280',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .card-shadow {
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            }
+            .transition-all-300 {
+                transition: all 300ms ease-in-out;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 min-h-screen">
+    <!-- 顶部导航 -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-primary">
+                议程设置理论可视化
+            </h1>
+            <nav>
+                <ul class="flex space-x-6">
+                    <li><a href="#theory" class="text-neutral hover:text-primary transition-all-300">理论简介</a></li>
+                    <li><a href="#visualization" class="text-neutral hover:text-primary transition-all-300">数据可视化</a>
+                    </li>
+                    <li><a href="#data-source" class="text-neutral hover:text-primary transition-all-300">数据来源</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 主要内容 -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- 理论简介部分 -->
+        <section id="theory" class="mb-16 bg-white rounded-xl p-6 md:p-8 card-shadow">
+            <h2 class="text-2xl md:text-3xl font-bold mb-6 text-primary border-l-4 border-primary pl-4">理论背景与核心观点</h2>
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <p class="text-lg mb-4 text-gray-700">
+                        议程设置理论由麦库姆斯（Maxwell McCombs）和肖（Donald
+                        Shaw）于1972年提出，该理论认为大众传播虽然不能决定人们"怎么想"，但可以通过提供信息和安排相关议题来有效地影响人们"想什么"。
+                    </p>
+                    <p class="text-lg mb-4 text-gray-700">
+                        媒介通过赋予各种议题不同程度的显著性，影响公众对社会问题重要性的认知。这种影响体现在媒介议程、公众议程和政策议程之间的动态关系中。
+                    </p>
+                    <div class="bg-blue-50 p-4 rounded-lg border-l-4 border-secondary mt-6">
+                        <h3 class="font-semibold text-primary mb-2">核心观点</h3>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>媒介议程影响公众议程的形成</li>
+                            <li>议题显著性随媒体报道量增加而提升</li>
+                            <li>不同媒介类型的议程设置效果存在差异</li>
+                            <li>议程设置存在时间滞后效应</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-gray-100 rounded-lg p-6 flex items-center justify-center h-64">
+                    <div class="text-center">
+                        <div class="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-4xl font-bold text-primary">1972</span>
+                        </div>
+                        <p class="text-xl font-semibold text-gray-700">理论提出年份</p>
+                        <p class="text-neutral mt-2">麦库姆斯 & 肖</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 数据可视化部分 -->
+        <section id="visualization" class="mb-16">
+            <h2 class="text-2xl md:text-3xl font-bold mb-8 text-primary border-l-4 border-primary pl-4">数据可视化分析</h2>
+
+            <!-- 图表1: 媒介议程与公众议程相关性 -->
+            <div class="bg-white rounded-xl p-6 md:p-8 mb-8 card-shadow transition-all-300 hover:shadow-lg">
+                <h3 class="text-xl md:text-2xl font-semibold mb-6 text-gray-800">媒介议程与公众议程相关性</h3>
+                <p class="text-gray-600 mb-6">基于1968年麦库姆斯和肖的查普希尔研究，展示不同议题的媒介报道频率与公众关注程度的相关性。</p>
+                <div class="h-80 md:h-96">
+                    <canvas id="correlationChart"></canvas>
+                </div>
+            </div>
+
+            <!-- 图表2和3: 并排布局 -->
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- 图表2: 议题显著性随报道变化 -->
+                <div class="bg-white rounded-xl p-6 md:p-8 card-shadow transition-all-300 hover:shadow-lg">
+                    <h3 class="text-xl font-semibold mb-6 text-gray-800">议题显著性随报道变化</h3>
+                    <p class="text-gray-600 mb-6">展示某一议题（环境保护）在媒体持续报道下，公众关注度的变化趋势。</p>
+                    <div class="h-72">
+                        <canvas id="salienceChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- 图表3: 不同媒介议程设置效果对比 -->
+                <div class="bg-white rounded-xl p-6 md:p-8 card-shadow transition-all-300 hover:shadow-lg">
+                    <h3 class="text-xl font-semibold mb-6 text-gray-800">媒介类型效果对比</h3>
+                    <p class="text-gray-600 mb-6">比较传统媒体与社交媒体在不同议题上的议程设置能力差异。</p>
+                    <div class="h-72">
+                        <canvas id="mediaComparisonChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 数据来源部分 -->
+        <section id="data-source" class="bg-white rounded-xl p-6 md:p-8 card-shadow">
+            <h2 class="text-2xl md:text-3xl font-bold mb-6 text-primary border-l-4 border-primary pl-4">数据来源与说明</h2>
+            <div class="space-y-4 text-gray-700">
+                <p>本页面数据主要来源于以下研究和理论框架：</p>
+                <ul class="list-disc list-inside space-y-2 pl-4">
+                    <li>麦库姆斯和肖（1972）：查普希尔研究（Chapel Hill Study）</li>
+                    <li>芬克豪泽（Funkhouser, 1973）：媒介议程与公众议程比较研究</li>
+                    <li>艾英格和金德（Iyengar & Kinder, 1987）：实验法验证议程设置效果</li>
+                    <li>帕姆格林和克拉克（Palmgreen & Clarke, 1997）：议题显著性追踪研究</li>
+                </ul>
+                <p class="mt-4">注：部分数据为基于理论模型的模拟数据，用于展示议程设置理论的核心机制。</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-800 text-white py-8 mt-16">
+        <div class="container mx-auto px-4 text-center">
+            <p class="mb-2">议程设置理论数据可视化 | 基于经典传播研究</p>
+            <p class="text-gray-400 text-sm">© 2023 传播理论可视化项目</p>
+        </div>
+    </footer>
+
+    <!-- 图表初始化脚本 -->
+    <script>
+        // 等待DOM加载完成
+        document.addEventListener('DOMContentLoaded', function () {
+            // 图表1: 媒介议程与公众议程相关性 - 柱状图
+            const correlationCtx = document.getElementById('correlationChart').getContext('2d');
+            new Chart(correlationCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['外交政策', '公共教育', '税收政策', '环境保护', '犯罪问题', '经济发展'],
+                    datasets: [
+                        {
+                            label: '媒介报道频率',
+                            data: [65, 59, 80, 81, 56, 72],
+                            backgroundColor: 'rgba(22, 93, 255, 0.7)',
+                            borderColor: 'rgba(22, 93, 255, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: '公众关注程度',
+                            data: [60, 55, 78, 76, 52, 68],
+                            backgroundColor: 'rgba(54, 207, 201, 0.7)',
+                            borderColor: 'rgba(54, 207, 201, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                            titleColor: '#333',
+                            bodyColor: '#666',
+                            borderColor: '#ddd',
+                            borderWidth: 1,
+                            padding: 12,
+                            boxPadding: 6,
+                            usePointStyle: true,
+                            callbacks: {
+                                label: function (context) {
+                                    return context.dataset.label + ': ' + context.raw + '%';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                callback: function (value) {
+                                    return value + '%';
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: '关注度/报道频率 (%)',
+                                font: {
+                                    weight: 'bold'
+                                }
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: '议题类型',
+                                font: {
+                                    weight: 'bold'
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 图表2: 议题显著性随报道变化 - 折线图
+            const salienceCtx = document.getElementById('salienceChart').getContext('2d');
+            new Chart(salienceCtx, {
+                type: 'line',
+                data: {
+                    labels: ['第1周', '第2周', '第3周', '第4周', '第5周', '第6周', '第7周', '第8周'],
+                    datasets: [
+                        {
+                            label: '媒体报道量',
+                            data: [12, 19, 30, 50, 75, 82, 78, 65],
+                            borderColor: 'rgba(255, 125, 0, 1)',
+                            backgroundColor: 'rgba(255, 125, 0, 0.1)',
+                            tension: 0.3,
+                            fill: true,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: '公众关注度',
+                            data: [8, 15, 25, 45, 68, 75, 80, 72],
+                            borderColor: 'rgba(22, 93, 255, 1)',
+                            backgroundColor: 'rgba(22, 93, 255, 0.1)',
+                            tension: 0.3,
+                            fill: true,
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    return context.dataset.label + ': ' + context.raw + '%';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: '报道量 (%)',
+                                color: 'rgba(255, 125, 0, 1)'
+                            },
+                            min: 0,
+                            max: 100,
+                            ticks: {
+                                callback: function (value) {
+                                    return value + '%';
+                                }
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: '关注度 (%)',
+                                color: 'rgba(22, 93, 255, 1)'
+                            },
+                            min: 0,
+                            max: 100,
+                            grid: {
+                                drawOnChartArea: false,
+                            },
+                            ticks: {
+                                callback: function (value) {
+                                    return value + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 图表3: 不同媒介议程设置效果对比 - 雷达图
+            const mediaComparisonCtx = document.getElementById('mediaComparisonChart').getContext('2d');
+            new Chart(mediaComparisonCtx, {
+                type: 'radar',
+                data: {
+                    labels: [
+                        '政治议题',
+                        '经济议题',
+                        '社会议题',
+                        '文化议题',
+                        '环境议题',
+                        '科技议题'
+                    ],
+                    datasets: [
+                        {
+                            label: '传统媒体',
+                            data: [85, 75, 65, 55, 45, 60],
+                            backgroundColor: 'rgba(22, 93, 255, 0.2)',
+                            borderColor: 'rgba(22, 93, 255, 0.8)',
+                            pointBackgroundColor: 'rgba(22, 93, 255, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(22, 93, 255, 1)'
+                        },
+                        {
+                            label: '社交媒体',
+                            data: [65, 55, 85, 75, 70, 80],
+                            backgroundColor: 'rgba(255, 125, 0, 0.2)',
+                            borderColor: 'rgba(255, 125, 0, 0.8)',
+                            pointBackgroundColor: 'rgba(255, 125, 0, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(255, 125, 0, 1)'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    elements: {
+                        line: {
+                            borderWidth: 3
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    scales: {
+                        r: {
+                            angleLines: {
+                                display: true,
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 100,
+                            ticks: {
+                                stepSize: 20,
+                                backdropColor: 'transparent',
+                                callback: function (value) {
+                                    return value + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 添加平滑滚动效果
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -69,7 +69,7 @@
                         <th>序号</th>
                         <th>同步时间</th>
                         <th>提交信息</th>
-                        <th>周次</th>
+
                     </tr>
                 </thead>
                 <tbody id="sync-data">
@@ -95,21 +95,7 @@
                     const tableBody = document.getElementById('sync-data');
                     const totalCount = document.getElementById('total-count');
 
-                    // 定义16周的日期范围(2025年3月3日到6月22日)
-                    const weekRanges = [];
-                    const startDate = new Date('2025-03-03');
 
-                    for (let i = 0; i < 16; i++) {
-                        const weekStart = new Date(startDate);
-                        weekStart.setDate(startDate.getDate() + i * 7);
-                        const weekEnd = new Date(weekStart);
-                        weekEnd.setDate(weekStart.getDate() + 6);
-                        weekRanges.push({
-                            start: new Date(weekStart),
-                            end: new Date(weekEnd),
-                            weekNum: i + 1
-                        });
-                    }
 
                     // 更新总次数
                     totalCount.textContent = data.length;
@@ -124,14 +110,7 @@
                         const row = document.createElement('tr');
                         const commitDate = new Date(commit.commit.committer.date);
 
-                        // 查找所属周次
-                        let weekInfo = '';
-                        for (const week of weekRanges) {
-                            if (commitDate >= week.start && commitDate <= week.end) {
-                                weekInfo = `第${week.weekNum}周`;
-                                break;
-                            }
-                        }
+
 
                         const indexCell = document.createElement('td');
                         indexCell.textContent = index + 1;
@@ -142,13 +121,9 @@
                         const messageCell = document.createElement('td');
                         messageCell.textContent = commit.commit.message;
 
-                        const weekCell = document.createElement('td');
-                        weekCell.innerHTML = weekInfo ? `<span style="color:red">${weekInfo} ✓</span>` : '';
-
                         row.appendChild(indexCell);
                         row.appendChild(dateCell);
                         row.appendChild(messageCell);
-                        row.appendChild(weekCell);
                         tableBody.appendChild(row);
                     });
 

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>任务管理器</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .input-group {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        li.completed {
+            text-decoration: line-through;
+            color: #888;
+        }
+        .task-actions button {
+            margin-left: 5px;
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+        .delete-btn {
+            background-color: #f44336;
+        }
+        .delete-btn:hover {
+            background-color: #d32f2f;
+        }
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+        .filter-buttons button {
+            border-radius: 4px;
+        }
+        .active {
+            background-color: #2196F3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>任务管理器</h1>
+        <div class="input-group">
+            <input type="text" id="taskInput" placeholder="添加新任务...">
+            <button id="addTaskBtn">添加</button>
+        </div>
+        <div class="filter-buttons">
+            <button id="allBtn" class="active">全部</button>
+            <button id="activeBtn">未完成</button>
+            <button id="completedBtn">已完成</button>
+        </div>
+        <ul id="taskList"></ul>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const taskInput = document.getElementById('taskInput');
+            const addTaskBtn = document.getElementById('addTaskBtn');
+            const taskList = document.getElementById('taskList');
+            const allBtn = document.getElementById('allBtn');
+            const activeBtn = document.getElementById('activeBtn');
+            const completedBtn = document.getElementById('completedBtn');
+            
+            let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            let currentFilter = 'all';
+            
+            // 渲染任务列表
+            function renderTasks() {
+                taskList.innerHTML = '';
+                
+                const filteredTasks = tasks.filter(task => {
+                    if (currentFilter === 'active') return !task.completed;
+                    if (currentFilter === 'completed') return task.completed;
+                    return true;
+                });
+                
+                if (filteredTasks.length === 0) {
+                    const emptyMessage = document.createElement('li');
+                    emptyMessage.textContent = '没有任务';
+                    taskList.appendChild(emptyMessage);
+                    return;
+                }
+                
+                filteredTasks.forEach((task, index) => {
+                    const li = document.createElement('li');
+                    if (task.completed) {
+                        li.classList.add('completed');
+                    }
+                    
+                    const taskText = document.createElement('span');
+                    taskText.textContent = task.text;
+                    
+                    const taskActions = document.createElement('div');
+                    taskActions.className = 'task-actions';
+                    
+                    const completeBtn = document.createElement('button');
+                    completeBtn.textContent = task.completed ? '未完成' : '完成';
+                    completeBtn.addEventListener('click', () => toggleComplete(index));
+                    
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.textContent = '删除';
+                    deleteBtn.className = 'delete-btn';
+                    deleteBtn.addEventListener('click', () => deleteTask(index));
+                    
+                    taskActions.appendChild(completeBtn);
+                    taskActions.appendChild(deleteBtn);
+                    
+                    li.appendChild(taskText);
+                    li.appendChild(taskActions);
+                    taskList.appendChild(li);
+                });
+            }
+            
+            // 添加新任务
+            function addTask() {
+                const text = taskInput.value.trim();
+                if (text === '') return;
+                
+                tasks.push({
+                    text: text,
+                    completed: false,
+                    createdAt: new Date().toISOString()
+                });
+                
+                saveTasks();
+                taskInput.value = '';
+                renderTasks();
+            }
+            
+            // 切换任务完成状态
+            function toggleComplete(index) {
+                const originalIndex = tasks.findIndex(task => 
+                    task.createdAt === getFilteredTask(index).createdAt
+                );
+                
+                if (originalIndex !== -1) {
+                    tasks[originalIndex].completed = !tasks[originalIndex].completed;
+                    saveTasks();
+                    renderTasks();
+                }
+            }
+            
+            // 删除任务
+            function deleteTask(index) {
+                const originalIndex = tasks.findIndex(task => 
+                    task.createdAt === getFilteredTask(index).createdAt
+                );
+                
+                if (originalIndex !== -1) {
+                    tasks.splice(originalIndex, 1);
+                    saveTasks();
+                    renderTasks();
+                }
+            }
+            
+            // 获取过滤后的任务
+            function getFilteredTask(index) {
+                const filteredTasks = tasks.filter(task => {
+                    if (currentFilter === 'active') return !task.completed;
+                    if (currentFilter === 'completed') return task.completed;
+                    return true;
+                });
+                return filteredTasks[index];
+            }
+            
+            // 保存任务到本地存储
+            function saveTasks() {
+                localStorage.setItem('tasks', JSON.stringify(tasks));
+            }
+            
+            // 设置过滤器
+            function setFilter(filter) {
+                currentFilter = filter;
+                allBtn.classList.remove('active');
+                activeBtn.classList.remove('active');
+                completedBtn.classList.remove('active');
+                
+                if (filter === 'all') allBtn.classList.add('active');
+                if (filter === 'active') activeBtn.classList.add('active');
+                if (filter === 'completed') completedBtn.classList.add('active');
+                
+                renderTasks();
+            }
+            
+            // 事件监听
+            addTaskBtn.addEventListener('click', addTask);
+            taskInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') addTask();
+            });
+            
+            allBtn.addEventListener('click', () => setFilter('all'));
+            activeBtn.addEventListener('click', () => setFilter('active'));
+            completedBtn.addEventListener('click', () => setFilter('completed'));
+            
+            // 初始渲染
+            renderTasks();
+        });
+    </script>
+</body>
+</html>

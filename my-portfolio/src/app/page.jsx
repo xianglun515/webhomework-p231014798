@@ -25,14 +25,14 @@ export default function HomePage() {
             <li style={{ background: '#f9f9f9', padding: '1.5rem', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', transition: 'transform 0.2s ease-in-out', ':hover': { transform: 'translateY(-5px)' } }}>
               <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem' }}>平时作业2</h2>
               <p style={{ color: '#555', marginBottom: '1.5rem' }}>待添加作业描述。</p>
-              <Link href="/homework2" style={{ textDecoration: 'none', color: '#0070f3', fontWeight: 'bold' }}>
+              <Link href="/task-manager.html" style={{ textDecoration: 'none', color: '#0070f3', fontWeight: 'bold' }}>
                 查看项目
               </Link>
             </li>
             <li style={{ background: '#f9f9f9', padding: '1.5rem', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', transition: 'transform 0.2s ease-in-out', ':hover': { transform: 'translateY(-5px)' } }}>
               <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem' }}>平时作业3</h2>
               <p style={{ color: '#555', marginBottom: '1.5rem' }}>待添加作业描述。</p>
-              <Link href="/homework3" style={{ textDecoration: 'none', color: '#0070f3', fontWeight: 'bold' }}>
+              <Link href="/ksh.html" style={{ textDecoration: 'none', color: '#0070f3', fontWeight: 'bold' }}>
                 查看项目
               </Link>
             </li>
@@ -60,9 +60,9 @@ export default function HomePage() {
           <li style={{ background: '#f9f9f9', padding: '1.5rem', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', listStyle: 'none', transition: 'transform 0.2s ease-in-out', ':hover': { transform: 'translateY(-5px)' } }} >
             <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem' }}>QAnything 问答服务</h2>
             <p style={{ color: '#555', marginBottom: '1.5rem' }}>一个基于网易大语言模型的智能问答服务页面。</p>
-            <Link href="/qanything" style={{ textDecoration: 'none', color: '#0070f3', fontWeight: 'bold' }}>
-              访问服务
-            </Link>
+             <Link href="/qanything" style={{ textDecoration: 'none', color: '#0070f3', fontWeight: 'bold' }}>
+               访问服务
+             </Link>
           </li>
         </div>
       </main>
