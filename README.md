@@ -131,6 +131,6 @@ jaychou/
 
 例如：
 
-![首页截图](my-portfolio/public/screenshot-homepage.png)
+![首页截图](example jpg/d8d7d09e22381313cb45e89bab43ae72.png)
 ![QAnything 页面截图](my-portfolio/public/screenshot-qanything.png)
 ![WakaTime 集成截图](my-portfolio/public/screenshot-wakatime.png)
