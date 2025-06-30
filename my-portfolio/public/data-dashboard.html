@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据可视化仪表板</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #36CFC9;
+            --accent: #f97316;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f1f5f9;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .card-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .stat-card {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 10px 0;
+            color: var(--primary);
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .stat-change {
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            margin-top: 5px;
+        }
+        
+        .positive {
+            color: var(--success);
+        }
+        
+        .negative {
+            color: var(--danger);
+        }
+        
+        .chart-container {
+            width: 100%;
+            height: 300px;
+            position: relative;
+        }
+        
+        .full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: rgba(37, 99, 235, 0.1);
+        }
+        
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            border-radius: 6px;
+            z-index: 1;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+        
+        .dropdown-content button {
+            color: var(--dark);
+            padding: 10px 16px;
+            width: 100%;
+            text-align: left;
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+        
+        .dropdown-content button:hover {
+            background-color: #f1f5f9;
+        }
+        
+        .active {
+            display: block;
+        }
+        
+        .loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            z-index: 10;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(37, 99, 235, 0.1);
+            border-left-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .table-container {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        th {
+            font-weight: 600;
+            color: var(--dark);
+            background-color: #f8fafc;
+        }
+        
+        tr:hover {
+            background-color: #f8fafc;
+        }
+        
+        .badge {
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .badge-success {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+        
+        .badge-warning {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+        
+        .badge-danger {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .stat-value {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>网站数据分析仪表板</h1>
+            <div class="controls">
+                <button class="btn btn-primary" id="refreshBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 3a5 5 0 0 0-5 5v1h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1a5 5 0 0 0 5-5 5 5 0 0 0-5-5v-1h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V8a6 6 0 0 1 6-6v1z"/>
+                        <path d="M8 16a6 6 0 0 1-6-6v-1h1a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1a6 6 0 0 1 6 6 6 6 0 0 1 6-6v-1h-1a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V8a5 5 0 0 0-5 5v1h-1a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1H8z"/>
+                    </svg>
+                    刷新数据
+                </button>
+                <div class="dropdown">
+                    <button class="btn btn-outline" id="periodBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                        </svg>
+                        时间范围
+                    </button>
+                    <div class="dropdown-content" id="periodDropdown">
+                        <button data-period="7">过去7天</button>
+                        <button data-period="30">过去30天</button>
+                        <button data-period="90">过去90天</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <div class="dashboard-grid">
+            <div class="card stat-card">
+                <div class="card-header">
+                    <div class="card-title">总访问量</div>
+                    <div class="card-icon" style="background-color: rgba(37, 99, 235, 0.1); color: var(--primary);">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M13.87 1.61a.5.5 0 0 1 0 .7L12.27 3.6l1.41 1.41a.5.5 0 0 1-0.7.7l-1.41-1.41-1.41 1.41a.5.5 0 0 1-0.7-0.7l1.41-1.41-1.4-1.4a.5.5 0 0 1 .7-0.7l1.41 1.41 1.4-1.41a.5.5 0 0 1 .71 0zM11 6.5a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11zm0 1a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9z"/>
+                            <path d="M2 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2zm10 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="stat-value" id="totalVisitors">0</div>
+                <div class="stat-label">访问用户总数</div>
+                <div class="stat-change positive" id="visitorsChange">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v11a.5.5 0 0 1-1 0V2a.5.5 0 0 1 .5-.5zm-7 0a.5.5 0 0 1 .5.5v11a.5.5 0 0 1-1 0V2a.5.5 0 0 1 .5-.5zm-2 0a.5.5 0 0 1 .5.5v11a.5.5 0 0 1-1 0V2a.5.5 0 0 1 .5-.5z"/>
+                        <path d="M7.646 14.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 13.293V5.5a.5.5 0 0 0-1 0v7.793L5.354 11.146a.5.5 0 1 0-.708.708l3 3z"/>
+                    </svg>
+                    12.5% 较上期
+                </div>
+            </div>
+            
+            <div class="card stat-card">
+                <div class="card-header">
+                    <div class="card-title">平均停留时间</div>
+                    <div class="card-icon" style="background-color: rgba(16, 185, 129, 0.1); color: var(--success);">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+                            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="stat-value" id="avgTime">00:00</div>
+                <div class="stat-label">用户平均停留时长</div>
+                <div class="stat-change positive" id="timeChange">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v11a.5.5 0 0 1-1 0V2a.5.5 0 0 1 .5-.5zm-7 0a.5.5 0 0 1 .5.5v11a.5.5 0 0 1-1 0V2a.5.5 0 0 1 .5-.5zm-2 0a.5.5 0 0 1 .5.5v11a.5.5 0 0 1-1 0V2a.5.5 0 0 1 .5-.5z"/>
+                        <path d="M7.646 14.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 13.293V5.5a.5.5 0 0 0-1 0v7.793L5.354 11.146a.5.5 0 1 0-.708.708l3 3z"/>
+                    </svg>
+                    8.2% 较上期
+                </div>
+            </div>
+            
+            <div class="card stat-card">
+                <div class="card-header">
+                    <div class="card-title">跳出率</div>
+                    <div class="card-icon" style="background-color: rgba(239, 68, 68, 0.1); color: var(--danger);">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M7.21.8C7.69.295 8.327 0 9.005 0c.714 0 1.347.301 1.781.802l7.838 7.839a2 2 0 0 1 0 2.827A2 2 0 0 1 15.818 12L12.01 15.818a2 2 0 0 1-2.827 0L3.182 12a2 2 0 0 1 0-2.828L7.21.8zm.01 2.13a.5.5 0 0 0-.706.025L3.27 8.5H1.5a.5.5 0 0 0 0 1h1.77l3.656 3.657a.5.5 0 0 0 .708 0l7.778-7.777a.5.5 0 0 0 0-.707L9.005 2.934a.5.5 0 0 0-.707 0z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="stat-value" id="bounceRate">0%</div>
+                <div class="stat-label">访问跳出率</div>
+                <div class="stat-change negative" id="bounceChange">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v11a.5.5 0 0 1-1 0V2a.5.5 0 0 1 .5-.5zm-7 0a.5.5 0 0 1 .5.5v11a.5.5 0 0 1-1 0V2a.5.5 0 0 1 .5-.5zm-2 0a.5.5 0 0 1 .5.5v11a.5.5 0 0 1-1 0V2a.5.5 0 0 1 .5-.5z"/>
+                        <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V10.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
+                    </svg>
+                    3.1% 较上期
+                </div>
+            </div>
+            
+            <div class="card full-width">
+                <div class="card-header">
+                    <div class="card-title">访问趋势</div>
+                </div>
+                <div class="chart-container">
+                    <div class="loading" id="trendsLoading">
+                        <div class="spinner"></div>
+                    </div>
+                    <canvas id="trendsChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">访问来源分布</div>
+                </div>
+                <div class="chart-container">
+                    <div class="loading" id="sourcesLoading">
+                        <div class="spinner"></div>
+                    </div>
+                    <canvas id="sourcesChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">热门页面</div>
+                </div>
+                <div class="table-container">
+                    <table id="pagesTable">
+                        <thead>
+                            <tr>
+                                <th>页面</th>
+                                <th>访问量</th>
+                                <th>占比</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="3" style="text-align:center;">加载中...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 全局变量
+        let trendsChart = null;
+        let sourcesChart = null;
+        let currentPeriod = 7;
+        
+        // DOM 元素加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化下拉菜单
+            const periodBtn = document.getElementById('periodBtn');
+            const periodDropdown = document.getElementById('periodDropdown');
+            
+            periodBtn.addEventListener('click', function() {
+                periodDropdown.classList.toggle('active');
+            });
+            
+            // 点击其他区域关闭下拉菜单
+            window.addEventListener('click', function(event) {
+                if (!event.target.matches('#periodBtn') && !event.target.parentNode.matches('#periodBtn')) {
+                    if (periodDropdown.classList.contains('active')) {
+                        periodDropdown.classList.remove('active');
+                    }
+                }
+            });
+            
+            // 时间范围选择
+            document.querySelectorAll('#periodDropdown button').forEach(button => {
+                button.addEventListener('click', function() {
+                    currentPeriod = parseInt(this.getAttribute('data-period'));
+                    periodBtn.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                        </svg>
+                        过去${currentPeriod}天
+                    `;
+                    periodDropdown.classList.remove('active');
+                    
+                    // 重新加载数据
+                    loadDashboardData();
+                });
+            });
+            
+            // 刷新按钮事件
+            document.getElementById('refreshBtn').addEventListener('click', function() {
+                loadDashboardData();
+            });
+            
+            // 初始加载数据
+            loadDashboardData();
+        });
+        
+        // 加载仪表板数据
+        async function loadDashboardData() {
+            // 显示加载状态
+            showLoading();
+            
+            try {
+                // 模拟API请求延迟
+                await new Promise(resolve => setTimeout(resolve, 1200));
+                
+                // 生成模拟数据
+                const data = generateMockData(currentPeriod);
+                
+                // 更新统计数据
+                updateStats(data.stats);
+                
+                // 更新图表
+                updateTrendsChart(data.trends);
+                updateSourcesChart(data.sources);
+                
+                // 更新热门页面表格
+                updatePagesTable(data.pages);
+            } catch (error) {
+                console.error('加载数据失败:', error);
+                alert('数据加载失败，请重试');
+            } finally {
+                // 隐藏加载状态
+                hideLoading();
+            }
+        }
+        
+        // 生成模拟数据
+        function generateMockData(days) {
+            // 生成日期标签
+            const dates = [];
+            for (let i = days - 1; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                dates.push(date.getMonth() + 1 + '/' + date.getDate());
+            }
+            
+            // 生成随机访问趋势数据
+            const visitorsTrend = Array(days).fill(0).map(() => Math.floor(Math.random() * 200) + 100);
+            const pageViewsTrend = visitorsTrend.map(v => v * (Math.random() * 0.5 + 1.2));
+            
+            // 来源分布数据
+            const sources = [
+                { name: '直接访问', value: Math.random() * 40 + 30 },
+                { name: '搜索引擎', value: Math.random() * 30 + 20 },
+                { name: '社交媒体', value: Math.random() * 20 + 10 },
+                { name: '外部链接', value: Math.random() * 15 + 5 },
+                { name: '其他', value: Math.random() * 10 + 5 }
+            ];
+            
+            // 热门页面数据
+            const pages = [
+                { path: '/home', views: Math.floor(Math.random() * 5000) + 1000 },
+                { path: '/products', views: Math.floor(Math.random() * 3000) + 800 },
+                { path: '/about', views: Math.floor(Math.random() * 2000) + 500 },
+                { path: '/contact', views: Math.floor(Math.random() * 1000) + 200 },
+                { path: '/blog/post-1', views: Math.floor(Math.random() * 800) + 100 }
+            ];
+            
+            const totalVisitors = visitorsTrend.reduce((a, b) => a + b, 0);
+            const prevTotalVisitors = Math.floor(totalVisitors * (1 - (Math.random() * 0.2 - 0.1)));
+            const visitorsChange = ((totalVisitors - prevTotalVisitors) / prevTotalVisitors * 100).toFixed(1);
+            
+            const avgTime = Math.floor(Math.random() * 180) + 60;
+            const prevAvgTime = Math.floor(avgTime * (1 - (Math.random() * 0.2 - 0.1)));
+            const timeChange = ((avgTime - prevAvgTime) / prevAvgTime * 100).toFixed(1);
+            
+            const bounceRate = Math.random() * 0.5 + 0.1;
+            const prevBounceRate = bounceRate * (1 + (Math.random() * 0.2 - 0.1));
+            const bounceChange = ((bounceRate - prevBounceRate) / prevBounceRate * 100).toFixed(1);
+
+            return {
+                stats: {
+                    totalVisitors,
+                    visitorsChange,
+                    avgTime,
+                    timeChange,
+                    bounceRate,
+                    bounceChange
+                },
+                trends: {
+                    labels: dates,
+                    datasets: [
+                        {
+                            label: '访问用户',
+                            data: visitorsTrend,
+                            borderColor: 'var(--primary)',
+                            backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        },
+                        {
+                            label: '页面浏览量',
+                            data: pageViewsTrend,
+                            borderColor: 'var(--secondary)',
+                            backgroundColor: 'rgba(54, 207, 201, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        }
+                    ]
+                },
+                sources: {
+                    labels: sources.map(s => s.name),
+                    datasets: [{
+                        data: sources.map(s => s.value),
+                        backgroundColor: ['#2563eb', '#36CFC9', '#f97316', '#10b981', '#94a3b8'],
+                        borderWidth: 0
+                    }]
+                },
+                pages
+            };
+        }
+        
+        // 更新统计数据
+        function updateStats(stats) {
+            document.getElementById('totalVisitors').textContent = stats.totalVisitors.toLocaleString();
+            updateChangeIndicator('visitorsChange', stats.visitorsChange);
+            
+            const minutes = Math.floor(stats.avgTime / 60).toString().padStart(2, '0');
+            const seconds = (stats.avgTime % 60).toString().padStart(2, '0');
+            document.getElementById('avgTime').textContent = `${minutes}:${seconds}`;
+            updateChangeIndicator('timeChange', stats.timeChange);
+            
+            document.getElementById('bounceRate').textContent = (stats.bounceRate * 100).toFixed(1) + '%';
+            updateChangeIndicator('bounceChange', stats.bounceChange, true);
+        }
+        
+        function updateChangeIndicator(elementId, change, isNegativeGood = false) {
+            const el = document.getElementById(elementId);
+            const isPositive = parseFloat(change) >= 0;
+            const arrowUp = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/></svg>`;
+            const arrowDown = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/></svg>`;
+
+            if ((isPositive && !isNegativeGood) || (!isPositive && isNegativeGood)) {
+                el.className = 'stat-change positive';
+                el.innerHTML = `${arrowUp} ${Math.abs(change)}% 较上期`;
+            } else {
+                el.className = 'stat-change negative';
+                el.innerHTML = `${arrowDown} ${Math.abs(change)}% 较上期`;
+            }
+        }
+
+        // 更新访问趋势图表
+        function updateTrendsChart(data) {
+            const ctx = document.getElementById('trendsChart').getContext('2d');
+            if (trendsChart) {
+                trendsChart.destroy();
+            }
+            trendsChart = new Chart(ctx, {
+                type: 'line',
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: '#e2e8f0' }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            align: 'end'
+                        }
+                    }
+                }
+            });
+        }
+        
+        // 更新来源分布图表
+        function updateSourcesChart(data) {
+            const ctx = document.getElementById('sourcesChart').getContext('2d');
+            if (sourcesChart) {
+                sourcesChart.destroy();
+            }
+            sourcesChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        }
+                    }
+                }
+            });
+        }
+        
+        // 更新热门页面表格
+        function updatePagesTable(pages) {
+            const tableBody = document.querySelector('#pagesTable tbody');
+            const totalViews = pages.reduce((sum, page) => sum + page.views, 0);
+            
+            tableBody.innerHTML = '';
+            pages.forEach(page => {
+                const percentage = ((page.views / totalViews) * 100).toFixed(1);
+                const row = `
+                    <tr>
+                        <td>${page.path}</td>
+                        <td>${page.views.toLocaleString()}</td>
+                        <td>${percentage}%</td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        }
+        
+        // 显示加载动画
+        function showLoading() {
+            document.querySelectorAll('.loading').forEach(el => el.style.display = 'flex');
+        }
+        
+        // 隐藏加载动画
+        function hideLoading() {
+            document.querySelectorAll('.loading').forEach(el => el.style.display = 'none');
+        }
+    </script>
+</body>
+</html>
