@@ -203,7 +203,21 @@ jaychou/
 
 ## 运行截图
 
-![首页截图](首页1.png 首页2.png 首页3.png)
-![QAnything 页面截图](Qanything api.png Qanything iframe.png)
-![WakaTime 集成截图](wakatime1.png wakatime2.png)
-![课程练习截图](点击我吧示意图.png 分析仪表盘.png 任务管理器1.png JSON作业.png 议程设置可视化.png CSS作业1.png CSS作业2.png)
+![首页截图1](首页1.png)
+![首页截图2](首页2.png)
+![首页截图3](首页3.png)
+![QAnything API页面截图](Qanything%20api.png)
+![QAnything iframe页面截图](Qanything%20iframe.png)
+![WakaTime集成截图1](wakatime1.png)
+![WakaTime集成截图2](wakatime2.png)
+![点击我吧练习](点击我吧示意图.png)
+![数据分析仪表盘](分析仪表盘.png)
+![任务管理器](任务管理器1.png)
+![JSON可视化工具](JSON作业.png)
+![议程设置可视化](议程设置可视化.png)
+![CSS Flexbox演示1](CSS作业1.png)
+![CSS Flexbox演示2](CSS作业2.png)
+
+### 周杰伦歌迷网站截图
+
+![周杰伦歌迷俱乐部](jaychoufans%20club.png)
