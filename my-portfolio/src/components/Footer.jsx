@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 const Footer = () => {
   const [totalTime, setTotalTime] = useState('Loading...');
@@ -53,21 +54,26 @@ const Footer = () => {
           </div>
           
           <div className="flex items-center">
-            <div className="bg-gray-100 rounded-lg px-4 py-2 flex items-center">
+            <Link href="/wakatime-stats" className="bg-gray-100 hover:bg-gray-200 transition-colors rounded-lg px-4 py-2 flex items-center group">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <div>
-                <p className="text-xs text-gray-500">Total Coding Time</p>
+                <p className="text-xs text-gray-500 flex items-center">
+                  Total Coding Time
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 ml-1 text-gray-400 group-hover:text-blue-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </p>
                 {isLoading ? (
                   <p className="text-sm font-medium">Loading...</p>
                 ) : error ? (
                   <p className="text-sm font-medium text-blue-600">25 hrs 42 mins</p>
                 ) : (
-                  <p className="text-sm font-medium">{totalTime}</p>
+                  <p className="text-sm font-medium group-hover:text-blue-600 transition-colors">{totalTime}</p>
                 )}
               </div>
-            </div>
+            </Link>
           </div>
           
           <div className="mt-4 md:mt-0">

@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Footer from "../components/Footer";
 import Link from "next/link";
+import GitHubUpdates from "../components/GitHubUpdates";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,15 +42,13 @@ export default function RootLayout({ children }) {
                   <Link href="/" className="border-transparent text-gray-500 hover:border-blue-500 hover:text-blue-600 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors duration-200">
                     首页
                   </Link>
-                  <Link href="/lasthomework" className="border-transparent text-gray-500 hover:border-blue-500 hover:text-blue-600 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors duration-200">
-                    点击我吧
-                  </Link>
                   <Link href="/qanything" className="border-transparent text-gray-500 hover:border-blue-500 hover:text-blue-600 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors duration-200">
                     <span className="flex items-center">
                       QAnything
                       <span className="ml-1 px-1.5 py-0.5 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">New</span>
                     </span>
                   </Link>
+                  <GitHubUpdates />
                   <a href="https://github.com/xianglun515/webhomework-p231014798" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-gray-900 transition-colors duration-200">
                     <span className="sr-only">GitHub</span>
                     <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -68,8 +67,10 @@ export default function RootLayout({ children }) {
                     </summary>
                     <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 ring-1 ring-black ring-opacity-5 group-open:block hidden">
                       <Link href="/" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">首页</Link>
-                      <Link href="/lasthomework" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">点击我吧</Link>
                       <Link href="/qanything" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">QAnything</Link>
+                      <div className="block px-4 py-2">
+                        <GitHubUpdates className="w-full text-left flex items-center text-sm text-gray-700 hover:text-gray-900" />
+                      </div>
                       <a href="https://github.com/xianglun515/webhomework-p231014798" target="_blank" rel="noopener noreferrer" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                         GitHub 仓库
                       </a>

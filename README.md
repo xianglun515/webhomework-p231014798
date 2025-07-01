@@ -203,7 +203,7 @@ jaychou/
 
 ## 运行截图
 
-![首页截图](my-portfolio/public/screenshots/screenshot-home.png)
-![QAnything 页面截图](my-portfolio/public/screenshots/screenshot-qanything.png)
-![WakaTime 集成截图](my-portfolio/public/screenshots/screenshot-wakatime.png)
-![课程练习截图](my-portfolio/public/screenshots/screenshot-exercise.png)
+![首页截图](首页1.png 首页2.png 首页3.png)
+![QAnything 页面截图](Qanything api.png Qanything iframe.png)
+![WakaTime 集成截图](wakatime1.png wakatime2.png)
+![课程练习截图](点击我吧示意图.png 分析仪表盘.png 任务管理器1.png JSON作业.png 议程设置可视化.png CSS作业1.png CSS作业2.png)
