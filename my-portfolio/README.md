@@ -420,8 +420,8 @@ export default function Footer() {
   ![QAnything iframe嵌入方式截图](../Qanything%20iframe.png)
 
 #### WakaTime编码统计
-- **页脚WakaTime统计展示**：在页脚显示的编码时间统计信息
-  ![页脚WakaTime统计展示](../wakatime1.png)
+- **WakaTime统计展示**：编码时间统计信息
+  ![WakaTime统计展示](../wakatime1.png)
   
 - **WakaTime详细统计页面**：展示详细的编码时间分布和项目统计
   ![WakaTime详细统计页面](../wakatime2.png)
