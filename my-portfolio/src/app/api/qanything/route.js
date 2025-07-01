@@ -4,14 +4,14 @@ export async function POST(request) {
     const requestData = await request.json();
     
     // 构建发送到实际API的请求
-    const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
+    const response = await fetch('https://api.qanything.com/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${API_KEY}`
       },
       body: JSON.stringify({
-        model: 'deepseek-chat',
+        model: 'qanything-model',
         messages: requestData.messages,
         temperature: requestData.temperature || 0.7,
         max_tokens: requestData.max_tokens || 1000
@@ -57,11 +57,10 @@ export async function POST(request) {
     // 获取API响应
     const data = await response.json();
     
-    // 修改响应以隐藏原始API信息
+    // 确保响应使用QAnything标识
     const modifiedResponse = {
       ...data,
-      model: 'qanything-model',  // 替换模型名称
-      id: data.id.replace('deepseek', 'qanything')  // 替换ID中可能的标识
+      model: 'qanything-model'
     };
     
     return new Response(JSON.stringify(modifiedResponse), {

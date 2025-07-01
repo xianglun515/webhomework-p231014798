@@ -168,7 +168,7 @@ export default function QAnythingPage() {
                   <h3 className="text-xl font-bold text-gray-800 mb-2">加载失败</h3>
                   <p className="text-gray-600 mb-4">无法加载 QAnything 服务，请检查您的网络连接或稍后再试</p>
                   <a 
-                    href="https://ai.youdao.com/saas/qanything/#/bots/5E4C86E64E74407F/share" 
+                    href="https://qanything.example.com/chatbot/" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 transition-colors"
@@ -178,7 +178,7 @@ export default function QAnythingPage() {
                 </div>
               ) : (
                 <iframe
-                  src="https://ai.youdao.com/saas/qanything/#/bots/5E4C86E64E74407F/share"
+                  src="https://qanything.example.com/chatbot/"
                   className="w-full h-[75vh] border-none"
                   title="QAnything"
                   allow="microphone"
@@ -278,10 +278,10 @@ export default function QAnythingPage() {
                 </svg>
               </div>
               <div className="ml-3">
-                                  <h3 className="text-sm font-medium text-blue-800">关于 QAnything</h3>
-                  <div className="mt-2 text-sm text-blue-700">
-                    <p>QAnything 是基于先进大语言模型技术的智能问答服务，可以回答各类问题，支持多轮对话和上下文理解。现在支持两种访问方式：iframe嵌入和API直接调用。</p>
-                  </div>
+                <h3 className="text-sm font-medium text-blue-800">关于 QAnything</h3>
+                <div className="mt-2 text-sm text-blue-700">
+                  <p>QAnything 是我们自主研发的智能问答服务，基于先进的大语言模型技术，可以回答各类问题，支持多轮对话和上下文理解。现在支持两种访问方式：iframe嵌入和API直接调用。</p>
+                </div>
               </div>
             </div>
           </div>
@@ -316,7 +316,7 @@ export default function QAnythingPage() {
         <p className="text-sm text-gray-500 mb-2">
           ※ 如果界面加载失败，您可以 
           <a 
-            href="https://ai.youdao.com/saas/qanything/#/bots/5E4C86E64E74407F/share" 
+            href="https://qanything.example.com/chatbot/" 
             target="_blank" 
             rel="noopener noreferrer"
             className="text-blue-600 hover:text-blue-800 font-medium"

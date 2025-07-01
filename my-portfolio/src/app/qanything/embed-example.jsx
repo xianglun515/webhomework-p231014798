@@ -7,7 +7,7 @@ export default function EmbedExamplePage() {
   const [copied, setCopied] = useState(false);
   
   const iframeCode = `<iframe
-  src="https://ai.youdao.com/saas/qanything/#/bots/5E4C86E64E74407F/share"
+  src="https://qanything.example.com/chatbot/"
   width="100%"
   height="600"
   style="border: none; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"
@@ -126,7 +126,7 @@ async function multiTurnConversation() {
             <div className="mt-6">
               <h3 className="text-lg font-medium text-gray-800 mb-2">预览效果：</h3>
               <iframe
-                src="https://ai.youdao.com/saas/qanything/#/bots/5E4C86E64E74407F/share"
+                src="https://qanything.example.com/chatbot/"
                 width="100%"
                 height="400"
                 style={{ border: 'none', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}
