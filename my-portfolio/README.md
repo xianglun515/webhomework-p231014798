@@ -400,14 +400,53 @@ export default function Footer() {
 
 ## 运行截图
 
-### 首页
-![首页截图](./public/screenshots/screenshot-home.png)
+### 个人作品集网站 (`my-portfolio`)
 
-### QAnything 问答服务
-![QAnything 页面截图](./public/screenshots/screenshot-qanything.png)
+#### 首页展示
+- **首页顶部区域**：展示项目标题、导航菜单和项目简介
+  ![首页顶部区域截图](../首页1.png)
+  
+- **首页项目展示区**：展示各个课程练习项目的卡片和链接
+  ![首页项目展示区截图](../首页2.png)
+  
+- **首页底部区域**：展示页脚信息和WakaTime编码统计
+  ![首页底部区域截图](../首页3.png)
 
-### WakaTime API 集成
-![WakaTime 集成截图](./public/screenshots/screenshot-wakatime.png)
+#### QAnything问答服务
+- **QAnything API调用方式**：展示通过API方式集成的问答服务界面
+  ![QAnything API集成方式截图](../Qanything%20api.png)
+  
+- **QAnything iframe嵌入方式**：展示通过iframe方式集成的问答服务界面
+  ![QAnything iframe嵌入方式截图](../Qanything%20iframe.png)
 
-### 课程练习示例
-![课程练习截图](./public/screenshots/screenshot-exercise.png)
+#### WakaTime编码统计
+- **页脚WakaTime统计展示**：在页脚显示的编码时间统计信息
+  ![页脚WakaTime统计展示](../wakatime1.png)
+  
+- **WakaTime详细统计页面**：展示详细的编码时间分布和项目统计
+  ![WakaTime详细统计页面](../wakatime2.png)
+
+#### 课程练习项目
+- **"点击我吧"交互练习**：简单的按钮点击交互示例
+  ![点击我吧交互练习截图](../点击我吧示意图.png)
+  
+- **网站数据分析仪表盘**：展示网站流量和用户数据的模拟仪表盘
+  ![网站数据分析仪表盘截图](../分析仪表盘.png)
+  
+- **任务管理器应用**：基于本地存储的任务清单管理工具
+  ![任务管理器应用截图](../任务管理器1.png)
+  
+- **JSON数据可视化工具**：将JSON文本解析并以树形结构展示
+  ![JSON数据可视化工具截图](../JSON作业.png)
+  
+- **议程设置可视化**：传播学经典理论的可视化案例
+  ![议程设置可视化截图](../议程设置可视化.png)
+  
+- **CSS Flexbox布局演示**：交互式Flexbox布局学习工具
+  ![CSS Flexbox布局属性控制面板](../CSS作业1.png)
+  ![CSS Flexbox布局效果展示区](../CSS作业2.png)
+
+### 周杰伦歌迷网站 (`jaychou`)
+
+- **歌迷俱乐部页面**：展示周杰伦歌迷俱乐部
+  ![周杰伦歌迷俱乐部页面截图](../jaychoufans%20club.png)
